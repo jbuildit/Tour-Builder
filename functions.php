@@ -53,23 +53,28 @@
 );
 
 // Loads All venue IDs for all upcoming events accross the country
- function loadUpcomingEvents($usStates,$APIKey,$f) { 
+ function loadUpcomingMetroArea($usStates,$APIKey,$f) { 
  reset($usStates); //iterare through states
+ $MetroArray = array(); //declares array to store metro areas
  while (list($key, $value) = each($usStates)) {
     // echo" This Is The State: ", $value, "<br>";
  	$MetroAreadIDs = "http://api.songkick.com/api/3.0/search/locations.json?query=$value&apikey=$APIKey"; // get the metro area results for the particular state
  	$MetroResponse = file_get_contents($MetroAreadIDs); 
  	$json_metro =  json_decode($MetroResponse,true);
  	$totalEntries= $json_metro['resultsPage']['totalEntries']; //set total number of entries for the state
- 	//echo "Total Entries: ","<b>",$totalEntries, "<p>";
+ 
 	
 	
  	for($i=0; $i<=$totalEntries; $i++) {
  		$metroID = $json_metro['resultsPage']['results']['location'][$i]['metroArea']['id']; // return a list of venue id's from that state
 		
- 		echo $metroID, "<-- MetroID  ";
- 		fwrite($f, $metroID.PHP_EOL); // write to a file
- 	
+ 		
+ 		//fwrite($f, $metroID.PHP_EOL); // write to a file
+		
+		$array[i]['state'] = $value;
+		$array[i]['id'] = $metroID;
+		//NEED TO DEDUPE THEN INSERT INTO DB
+		echo "State: ", $array[i]['state'], " - MetroID: ", $array[i]['id'], "<p>";
 	}
  }
 } 

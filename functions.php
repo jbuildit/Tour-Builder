@@ -52,6 +52,8 @@
   'WY' => 'Wyoming',
 );
 
+
+
 // Loads All venue IDs for all upcoming events accross the country
  function loadUpcomingMetroArea($usStates,$APIKey,$f) { 
  reset($usStates); //iterare through states
@@ -75,11 +77,16 @@
 		$array[i]['id'] = $metroID;
 		//NEED TO DEDUPE THEN INSERT INTO DB
 		echo "State: ", $array[i]['state'], " - MetroID: ", $array[i]['id'], "<p>";
+	
+	
 	}
  }
 } 
  
 // Calling Songkick Venue API to load Venue details and zip code data into MYSQL
+
+
+
 
 function getVenueID($metroID, $APIKey){
 

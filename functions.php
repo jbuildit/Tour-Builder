@@ -77,13 +77,17 @@
 		$array[i]['id'] = $metroID;
 		//NEED TO DEDUPE THEN INSERT INTO DB
 		echo "State: ", $array[i]['state'], " - MetroID: ", $array[i]['id'], "<p>";
-	
+		
 	
 	}
  }
+ 
 } 
  
-// Calling Songkick Venue API to load Venue details and zip code data into MYSQL
+//
+
+
+
 
 
 

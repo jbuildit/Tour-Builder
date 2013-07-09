@@ -7,8 +7,6 @@ loadUpcomingMetroArea($usStates,$APIKey,$f);
 
 
 
-
-
  
 
 

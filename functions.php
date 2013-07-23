@@ -55,9 +55,10 @@
 
 
 // Loads All venue IDs for all upcoming events accross the country
- function loadUpcomingMetroArea($usStates,$APIKey,$f) { 
+ function loadUpcomingMetroArea($usStates,$APIKey,$con) { 
  reset($usStates); //iterare through states
  $MetroArray = array(); //declares array to store metro areas
+ 
  while (list($key, $value) = each($usStates)) {
     // echo" This Is The State: ", $value, "<br>";
  	$MetroAreadIDs = "http://api.songkick.com/api/3.0/search/locations.json?query=$value&apikey=$APIKey"; // get the metro area results for the particular state
@@ -75,18 +76,28 @@
 		
 		$array[i]['state'] = $value;
 		$array[i]['id'] = $metroID;
-		//NEED TO DEDUPE THEN INSERT INTO DB
-		echo "State: ", $array[i]['state'], " - MetroID: ", $array[i]['id'], "<p>";
+		$stateID = join("_",$array[i]);  //create unique ID
+		$StateInsert = $array[i]['state'];
+		$IDInsert= $array[i]['id'];	
 		
+		
+		//NEED TO DEDUPE THEN INSERT INTO DB
+	//	echo "This is state ID --> ", $stateID, "<p>";
+	//	echo "State: ", $array[i]['state'], " - MetroID: ", $array[i]['id'], "<p>";
+		
+	//echo " State ID: ", $stateID, "<p>";
+	//echo " State Insert: ", $StateInsert, "<p>";
+	//echo " ID Insert: ", $IDInsert, "<p>";	
+			
+		mysqli_query($con,"INSERT INTO Metro_ID (UniquID, State, ID)
+		VALUES ('$stateID', '$StateInsert','$IDInsert')");
+		//echo $IDInsert;
 	
 	}
  }
  
 } 
  
-//
-
-
 
 
 
@@ -95,12 +106,12 @@
 function getVenueID($metroID, $APIKey){
 
 $Metroupcoming = "http://api.songkick.com/api/3.0/metro_areas/$metroID/calendar.json?apikey=$APIKey";
-$UpcomingResponse = file_get_contents($Venueurl); 
+$UpcomingResponse = file_get_contents($Metroupcoming); 
 $json_upcoming =json_decode($UpcomingResponse,true);
  
 //NEXT STEP -> Take metro response and parse for venue and zip   
  
-print_r( $json_upcoming);
+print_r($json_upcoming);
 
 
 
